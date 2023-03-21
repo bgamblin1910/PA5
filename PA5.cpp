@@ -42,13 +42,13 @@ void executeUserChoice(int choice, SongLibrary& lib) {
 		case 2:
 			// TODO: call a helper member function, something like lib.loadLibrary();
 			cout << "What library would you like to load?"<< endl;
-			// cin >> fileName;
-			lib.performLoad("STUPID.txt");
+			 cin >> fileName;
+			lib.performLoad(fileName);
 			break;
 		case 3: 
 			cout << "What library would you like to save to?"<< endl;
-			//cin >> fileName;
-			lib.performSave("output.txt");
+			cin >> fileName;
+			lib.performSave(fileName);
 			// TODO: call a helper member function, something like lib.saveLibrary();
 			break;
 		case 4:
