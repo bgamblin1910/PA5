@@ -29,23 +29,57 @@ int getValidChoice() {
 }
 
 void executeUserChoice(int choice, SongLibrary& lib) {
+	string fileName;
+	string title;
+		string artist;
+		string genre;
+		string value;
 	switch (choice) {
+		
 		case 1:
 			lib.displayLibrary();
 			break;
 		case 2:
 			// TODO: call a helper member function, something like lib.loadLibrary();
+			cout << "What library would you like to load?"<< endl;
+			// cin >> fileName;
+			lib.performLoad("STUPID.txt");
 			break;
 		case 3: 
+			cout << "What library would you like to save to?"<< endl;
+			//cin >> fileName;
+			lib.performSave("output.txt");
 			// TODO: call a helper member function, something like lib.saveLibrary();
 			break;
 		case 4:
+			cout << "What attribute would you like to sort by?"<< endl;
+			cin >> fileName;
+			lib.performSort(fileName);
 			// TODO: call a helper member function, something like lib.sortLibrary();
 			break;
 		case 5:
+			cout << "What attribute(title) would you like to search by?"<< endl;
+			cin >> fileName;
+			cout << "What attribute value(Thunderstruck) are you searching for?"<< endl;
+			
+			cin >> value;
+			Song * song;
+			int* index;
+			if (lib.performSearch(fileName, value,song,index))
+			{
+				song->displaySong();
+			}
+			else{
+				cout<<"Song not Found" << endl;
+			}
+			
 			// TODO: call a helper member function, something like lib.searchLibrary();
 			break;
 		case 6:
+			cout << "What is the song's title?"<< endl;
+			cout << "Who is the artist?"<< endl;
+			cout << "What is the song's genre?"<< endl;
+			cout << "What is the song's rating?"<< endl;
 		 	// TODO: call a helper member function, something like lib.addSongToLibrary();
 		 	break;
 		case 7:
