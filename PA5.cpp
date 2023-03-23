@@ -46,7 +46,7 @@ void executeUserChoice(int choice, SongLibrary& lib) {
 		case 2:
 			// TODO: call a helper member function, something like lib.loadLibrary();
 			cout << "What library would you like to load?"<< endl;
-			 //getline(cin,fileName);
+			 getline(cin,fileName);
 			lib.performLoad(fileName);
 			break;
 		case 3: 
