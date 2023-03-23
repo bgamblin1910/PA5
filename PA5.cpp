@@ -29,11 +29,15 @@ int getValidChoice() {
 }
 
 void executeUserChoice(int choice, SongLibrary& lib) {
-	string fileName;
+	string fileName = "library.txt";
 	string title;
 		string artist;
 		string genre;
 		string value;
+		Song tempSONG;
+		Song * song = &tempSONG;
+		int ind = 0;
+			int* index = &ind;
 	switch (choice) {
 		
 		case 1:
@@ -42,12 +46,12 @@ void executeUserChoice(int choice, SongLibrary& lib) {
 		case 2:
 			// TODO: call a helper member function, something like lib.loadLibrary();
 			cout << "What library would you like to load?"<< endl;
-			 cin >> fileName;
+			 //getline(cin,fileName);
 			lib.performLoad(fileName);
 			break;
 		case 3: 
 			cout << "What library would you like to save to?"<< endl;
-			cin >> fileName;
+			getline(cin,fileName);
 			lib.performSave(fileName);
 			// TODO: call a helper member function, something like lib.saveLibrary();
 			break;
@@ -59,12 +63,11 @@ void executeUserChoice(int choice, SongLibrary& lib) {
 			break;
 		case 5:
 			cout << "What attribute(title) would you like to search by?"<< endl;
-			cin >> fileName;
-			cout << "What attribute value(Thunderstruck) are you searching for?"<< endl;
+			getline(cin,fileName);
+			 cout << "What attribute value(Thunderstruck) are you searching for?"<< endl;
 			
-			cin >> value;
-			Song * song;
-			int* index;
+			getline(cin,value);
+			
 			if (lib.performSearch(fileName, value,song,index))
 			{
 				song->displaySong();
@@ -77,13 +80,22 @@ void executeUserChoice(int choice, SongLibrary& lib) {
 			break;
 		case 6:
 			cout << "What is the song's title?"<< endl;
+			getline(cin,title);
 			cout << "Who is the artist?"<< endl;
+			getline(cin,artist);
 			cout << "What is the song's genre?"<< endl;
-			cout << "What is the song's rating?"<< endl;
+			getline(cin,genre);
+			cout << "What is the song's rating(1 to 5)?"<< endl;
+			getline(cin,value);
+			tempSONG = Song(title,artist,genre,stoi(value));
+			lib.performAddSong(tempSONG);
 		 	// TODO: call a helper member function, something like lib.addSongToLibrary();
 		 	break;
 		case 7:
 			// TODO: call a helper member function, something like lib.removeSongFromLibrary();
+			cout << "What is the index of the song you would like to remove?"<< endl;
+			getline(cin,value);
+			lib.performRemoveSong(stoi(value));
 			break;
 		case 8:
 			// TODO: call a helper member function, something like lib.editSongInLibrary();
@@ -91,7 +103,13 @@ void executeUserChoice(int choice, SongLibrary& lib) {
 		default:
 			cout << "Unrecognized menu choice" << endl;
 			break;
+
+		
 	}
+	song = NULL;
+	delete song;
+	index = NULL;
+	delete index;
 }
 
 void runMusicManager() {

@@ -29,7 +29,7 @@ class SongLibrary {
 		void performAddSong(Song);
 		void performRemoveSong(int);
 		void performEditSong(int, string, string);
-
+		void swap(Song &a, Song &b);
 		// TODO: add your additional public member functions here
 };
 

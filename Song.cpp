@@ -3,13 +3,17 @@
 // TODO: finish this function
 string convertToLowercase(string s) {
 	string temp;
-
+	
 	for(int i = 0; i < s.length(); i++)
 	{
-		char* tem;
-		*tem=  *(s.substr(i,i+1).c_str());
-		temp += to_string(*tem);
+		char tem;
+		
+		tem=  *(s.substr(i,i+1).c_str());
+		char te = tolower(tem);
+		temp += te;
+		
 	}
+	
 	return temp;
 }
 
@@ -21,11 +25,22 @@ Song::Song() {
 		rating = 1;
 }
 
-// TODO: finish Song explicit value constructor
+/*************************************************************
+ * Function: song()
+ * Date Created: 3/17/2022 
+ * Date Last Modified: 3/20/2022 
+ * Description: constructs song
+ * Input parameters: song parameter
+ * Returns: new song
+ * Pre: nothing
+ * Post: nothing
+ *************************************************************/
 Song::Song(string titleParam, string artistParam, string genreParam, int ratingParam) {
-	title = titleParam;
-		artist = artistParam;
-		genre =  genreParam;
+		
+		
+		title = convertToLowercase(titleParam);
+		artist = convertToLowercase(artistParam);
+		genre =  convertToLowercase(genreParam);
 		rating = ratingParam;
 }
 
@@ -72,28 +87,46 @@ void Song::setRating(int newRating) {
 	}
 }
 
-// TODO: finish this function
+/*************************************************************
+ * Function: displaySong()
+ * Date Created: 3/16/2022 
+ * Date Last Modified: 3/17/2022 
+ * Description: prints song contents
+ * Input parameters: song
+ * Returns: nothing
+ * Pre: song must have contents
+ * Post: nothing
+ *************************************************************/
 void Song::displaySong() {
 	cout << "Title: " <<title << " Artist:" << artist << " Genre: " << genre << " Rating: "+ to_string(rating)<< endl;
 }
 
-// TODO: finish this function
+/*************************************************************
+ * Function: getStringAttributeValue()
+ * Date Created: 3/16/2022 
+ * Date Last Modified: 3/21/2022 
+ * Description: returns attribute contents
+ * Input parameters: song and attribute
+ * Returns: string
+ * Pre: song mush have contents
+ * Post: nothing
+ *************************************************************/
 string Song::getStringAttributeValue(string attribute) {
 	if (attribute == "title")
 	{
-		return this->getTitle();
+		return getTitle();
 	}
 	else if (attribute == "artist")
 	{
-		return this->getArtist();
+		return getArtist();
 	}
 	else if (attribute == "genre")
 	{
-		return this->getGenre();
+		return getGenre();
 	}
 	else if  (attribute == "rating")
 	{
-		return to_string(this->getRating());
+		return to_string(getRating());
 	}
 	return "";
 }

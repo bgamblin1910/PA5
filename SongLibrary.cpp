@@ -1,3 +1,5 @@
+
+
 #include "SongLibrary.h"
 
 SongLibrary::SongLibrary() {
@@ -6,10 +8,20 @@ SongLibrary::SongLibrary() {
 	songs = NULL; 
 }
 
-// TODO: finish SongLibrary destructor
+/*************************************************************
+ * Function: ~SongLibrary()()
+ * Date Created: 3/17/2022 
+ * Date Last Modified: 3/18/2022 
+ * Description: deletes library
+ * Input parameters: nothg
+ * Returns: nothing
+ * Pre: nothing
+ * Post: nothing
+ *************************************************************/
 SongLibrary::~SongLibrary() {
-	delete songs;
 	songs = NULL;
+	delete[] songs;
+	
 }
 
 int SongLibrary::getNumSongs() {
@@ -31,17 +43,42 @@ void SongLibrary::setSongsArray(Song * newSongsArr) {
 	songs = newSongsArr;
 }
 
-// TODO: finish this function
+/*************************************************************
+ * Function: displayLibrary()
+ * Date Created: 3/17/2022 
+ * Date Last Modified: 3/23/2022 
+ * Description: displays library
+ * Input parameters: the library
+ * Returns: nothing
+ * Pre: library must be filled
+ * Post: nothing
+ *************************************************************/
 void SongLibrary::displayLibrary() {
+	if (numSongs>0){
 	for(int i = 0; i < this->getNumSongs(); i++)
 	{
 		 (this->songs +i)->displaySong();
 		
 	}
 }
+else {
+	cout<< "Library Empty"<<endl;
+}}
 
-// TODO: finish this function
+/*************************************************************
+ * Function: performLoad()
+ * Date Created: 3/17/2022 
+ * Date Last Modified: 3/20/2022 
+ * Description: loads  library from a file
+ * Input parameters: the library and filename
+ * Returns: nothing
+ * Pre: file must have certain format
+ * Post: nothing
+ *************************************************************/
 void SongLibrary::performLoad(string filename) {
+	numSongs = 0;
+	delete[] songs;
+	songs = NULL;
 	ifstream inFile(filename);
 	inFile.clear();
 	inFile.seekg(0, ios::beg);
@@ -50,19 +87,26 @@ void SongLibrary::performLoad(string filename) {
 	string tempGen = " Genre";
 	string tempRat = " Num";
 	string tempClear = " Clear";
+	
 	while(!(inFile.eof()))
 	{
 		
-
+		
 		//inFile >> tempSong;
 		getline(inFile,tempSong);
 		getline(inFile,tempArt);
 		getline(inFile,tempGen);
 		getline(inFile,tempRat);
 		getline(inFile,tempClear);
-
-		Song temp(tempSong,tempArt,tempGen,	stoi(tempRat));
-		this->performAddSong(temp);
+		int fart = stoi(tempRat);
+		Song temp = Song();
+		temp.setTitle(tempSong);
+		temp.setArtist(tempArt);
+		temp.setGenre(tempGen);
+		temp.setRating(fart);
+		
+		performAddSong(temp);
+		
 
 
 	}
@@ -71,7 +115,16 @@ void SongLibrary::performLoad(string filename) {
 
 }
 
-// TODO: finish this function
+/*************************************************************
+ * Function: performSave()
+ * Date Created: 3/17/2022 
+ * Date Last Modified: 3/20/2022 
+ * Description: saves library
+ * Input parameters: the library and output filename
+ * Returns: nothing
+ * Pre: library must be filled
+ * Post: output file is filled
+ *************************************************************/
 void SongLibrary::performSave(string filename) {
 	ofstream outputFile;
     outputFile.open(filename);
@@ -87,7 +140,16 @@ void SongLibrary::performSave(string filename) {
 }
 }
 
-// TODO: finish this function
+/*************************************************************
+ * Function: performSort()
+ * Date Created: 3/17/2022 
+ * Date Last Modified: 3/23/2022 
+ * Description: sorts library
+ * Input parameters: the library and attribute to sort by
+ * Returns: lirbary that is sorted
+ * Pre: library must be filled
+ * Post: library is sorted
+ *************************************************************/
 void SongLibrary::performSort(string attribute) {
 	int minIndex;
 	Song minValue;
@@ -109,14 +171,25 @@ void SongLibrary::swap(Song &a, Song &b) {
    a = b;
    b = temp;
 }
-// TODO: finish this function
+/*************************************************************
+ * Function: performSearch()
+ * Date Created: 3/18/2022 
+ * Date Last Modified: 3/23/2022 
+ * Description: searches library
+ * Input parameters: the library, attribtue the attributevalue, song pointer and int pointer
+ * Returns: boolean
+ * Pre: library must be filled
+ * Post: nothing
+ *************************************************************/
 bool SongLibrary::performSearch(string searchAttribute, string searchAttributeValue, Song * foundSong, int * index) {
-		*index = -1;
-		for(int i = 0; i < this->numSongs; i++)
+		
+		for(int i = 0; i < numSongs; i++)
 		{
 			if ((songs[i]).getStringAttributeValue(searchAttribute) == searchAttributeValue)
 			{
-				*foundSong = songs[i];
+				Song tempSong = songs[i];
+				*foundSong = tempSong;
+				
 				*index = i;
 				return true;
 
@@ -129,50 +202,96 @@ bool SongLibrary::performSearch(string searchAttribute, string searchAttributeVa
 			return true;
 		}
 	
-	
+	*index = -1;
 	return false;
 }
 
-// TODO: finish this function
+/*************************************************************
+ * Function: performAddSong()
+ * Date Created: 3/18/2022 
+ * Date Last Modified: 3/22/2022 
+ * Description: adds songs
+ * Input parameters: the library and new song
+ * Returns: nothing
+ * Pre: nothing
+ * Post: library has a new songs
+ *************************************************************/
 void SongLibrary::performAddSong(Song newSong) {
+	
 	Song * temp =  new Song[numSongs+1];
 	for(int i = 0; i < numSongs; i++)
 	{
 		temp[i] = songs[i];
 	}
 	temp[numSongs] = newSong;
-	cout<< "FART"<<endl;
-	numSongs +=1;
+	
+	if(newSong.getTitle() != ""){
+	numSongs +=1;}
+
 	songs = NULL;
 	songs = new Song[numSongs];
 	for(int i = 0; i < numSongs; i++)
 	{
 		songs[i] = temp[i];
 	}
-	delete []temp;
-	temp = NULL;
+	delete[] temp;
 
 	
 }
 
-// TODO: finish this function
+/*************************************************************
+ * Function: performRemoveSong()
+ * Date Created: 3/18/2022 
+ * Date Last Modified: 3/23/2022 
+ * Description: removes songs
+ * Input parameters: the library and index to remove
+ * Returns: nothing
+ * Pre: library must be filled with at least one songs
+ * Post: nothing
+ *************************************************************/
 void SongLibrary::performRemoveSong(int indexToRemove) {
+	if (numSongs >1)
+	{
 	Song * temp =  new Song[numSongs-1];
-	for(int i = 0; i < indexToRemove; i++)
-	{
-		temp[i] = songs[i];
-	}
-	for(int i = indexToRemove+1; i < numSongs; i++)
-	{
-		temp[i] = songs[i];
-	}
+		
+		for(int i = 0; i < indexToRemove; i++)
+		{
+			temp[i] = songs[i];
+		}
+		for(int i = indexToRemove+1; i < numSongs; i++)
+		{
+			temp[i-1] = songs[i];
+		}
+		
+	
 	numSongs -=1;
+	delete[] songs;
 	songs = NULL;
-	delete songs;
-	songs = temp;
+	songs = new Song[numSongs];
+	for(int i = 0; i < numSongs; i++)
+	{
+		songs[i] = temp[i];
+	}
+	delete[] temp;
+	temp = NULL;
+	}
+	else {
+		numSongs = 0;
+		delete[] songs;
+		songs = NULL;
+	}
 }
 
-// TODO: finish this function
+/*************************************************************
+ * Function: performEditSong()
+ * Date Created: 3/18/2022 
+ * Date Last Modified: 3/23/2022 
+ * Description: edits a songs
+ * Input parameters: the library, index to edit, attribute and attributevalue
+ * Returns: nothing
+ * Pre: library must be filled enough and index must be an actual index
+ * Post: nothing
+ *************************************************************/
 void SongLibrary::performEditSong(int indexToEdit, string attribute, string newAttributeValue) {	
 	if (attribute == "rating")
 	{
